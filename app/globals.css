@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #3d7a2f;
+  --color-primary-light: #5a9e4a;
+  --color-primary-dark: #2d5c22;
+  --color-accent: #c47f3a;
+  --color-accent-light: #d4954f;
+  --color-accent-dark: #a0652a;
+  --color-warm: #f7f5ef;
+  --color-sand: #e8dcc8;
+  --color-text-primary: #2c2c2c;
+  --radius-card: 12px;
+  --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 4px 24px rgba(0, 0, 0, 0.10);
+  --font-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+}
+
+body {
+  background: var(--color-warm);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 梯田波浪线 — 卡片底部装饰 */
+.terrace-edge {
+  position: relative;
+}
+.terrace-edge::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-primary) 0px,
+    var(--color-primary) 4px,
+    var(--color-primary-light) 4px,
+    var(--color-primary-light) 8px,
+    var(--color-accent) 8px,
+    var(--color-accent) 10px,
+    transparent 10px,
+    transparent 14px
+  );
+  border-radius: 0 0 var(--radius-card) var(--radius-card);
+}
+
+/* 菱形几何纹 — section 分隔 */
+.diamond-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 2rem 0;
+}
+.diamond-divider::before,
+.diamond-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-sand);
+}
+.diamond-divider span {
+  width: 8px;
+  height: 8px;
+  background: var(--color-accent);
+  transform: rotate(45deg);
+  display: inline-block;
+}
+
+/* 山脉剪影 — 用于背景 */
+.mountain-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,40 L150,10 L300,50 L450,5 L600,45 L750,15 L900,40 L1050,8 L1200,35 L1200,120 L0,120 Z' fill='%23e8dcc8' opacity='0.5'/%3E%3Cpath d='M0,60 L200,30 L400,55 L600,20 L800,50 L1000,25 L1200,45 L1200,120 L0,120 Z' fill='%23f7f5ef' opacity='0.7'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: bottom;
+  background-size: 100% 80px;
+}
