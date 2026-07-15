@@ -1,57 +1,38 @@
+import { getSettings } from "@/lib/data";
+
 export default function AboutPage() {
+  const s = getSettings();
+  const aboutText = s.about_text || "我们深耕云南高原蔬果供应链多年，在大理、昭通、楚雄、红河、玉溪等核心农业产区建立了稳定的合作种植基地...";
+
   return (
     <>
-      {/* 页头 */}
       <section className="pt-28 pb-12 bg-warm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-text-primary tracking-wide mb-4">
-            关于我们
-          </h1>
-          <p className="text-text-primary/50 max-w-xl mx-auto">
-            立足云南高原，连接全国餐桌
-          </p>
+          <h1 className="text-4xl sm:text-5xl font-bold text-text-primary tracking-wide mb-4">关于我们</h1>
+          <p className="text-text-primary/50 max-w-xl mx-auto">立足云南高原，连接全国餐桌</p>
         </div>
       </section>
-
-      {/* 企业简介 */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-text-primary tracking-wide mb-6">
-                云南高原供应链
-              </h2>
+              <h2 className="text-3xl font-bold text-text-primary tracking-wide mb-6">{s.company_name || "云南高原供应链"}</h2>
               <div className="space-y-4 text-text-primary/70 leading-relaxed">
-                <p>
-                  我们深耕云南高原蔬果供应链多年，在大理、昭通、楚雄、红河、玉溪等核心农业产区建立了稳定的合作种植基地，覆盖叶菜、茄果、根茎、水果、野生菌等全品类。
-                </p>
-                <p>
-                  依托云南独特的高原气候优势——日照充足、昼夜温差大、生态环境优良——我们的产品在品质、口感、安全性上均具有显著优势。
-                </p>
-                <p>
-                  从产地预冷、分拣包装到冷链运输，我们建立了完整的采后处理体系，确保产品在最佳状态下送达合作伙伴手中。
-                </p>
+                {aboutText.split("\n").filter(Boolean).map((p, i) => <p key={i}>{p}</p>)}
               </div>
             </div>
-            <div className="bg-sand rounded-card aspect-[4/3] flex items-center justify-center">
-              <span className="text-text-primary/30 text-lg">企业形象图（待提供）</span>
+            <div className="bg-sand rounded-card aspect-[4/3] flex items-center justify-center overflow-hidden">
+              {s.about_image ? <img src={s.about_image} alt="" className="w-full h-full object-cover" /> : <span className="text-text-primary/30 text-lg">企业形象图（待提供）</span>}
             </div>
           </div>
         </div>
       </section>
-
-      {/* 种植基地 */}
       <section className="py-20 bg-warm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl font-bold text-text-primary tracking-wide mb-4">
-              种植基地
-            </h2>
-            <p className="text-text-primary/50 max-w-xl mx-auto">
-              覆盖云南六大核心产区
-            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-text-primary tracking-wide mb-4">种植基地</h2>
+            <p className="text-text-primary/50 max-w-xl mx-auto">覆盖云南六大核心产区</p>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { name: "大理宾川", product: "葡萄、紫皮蒜、柑橘", altitude: "海拔 1400-1800m" },
@@ -70,17 +51,11 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      {/* 资质证书 */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl font-bold text-text-primary tracking-wide mb-4">
-              资质证书
-            </h2>
-            <p className="text-text-primary/50 max-w-xl mx-auto">
-              品质保证，值得信赖
-            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-text-primary tracking-wide mb-4">资质证书</h2>
+            <p className="text-text-primary/50 max-w-xl mx-auto">品质保证，值得信赖</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {["绿色食品认证", "有机产品认证", "农产品地理标志", "ISO 质量管理"].map((cert) => (

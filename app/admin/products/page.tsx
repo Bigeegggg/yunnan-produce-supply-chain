@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { Suspense, useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
@@ -10,7 +10,7 @@ interface Product {
   published: number;
 }
 
-export default function AdminProductsPage() {
+function AdminProductsInner() {
   const searchParams = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
@@ -99,5 +99,13 @@ export default function AdminProductsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AdminProductsPage() {
+  return (
+    <Suspense fallback={<div className="p-6 max-w-6xl mx-auto text-center text-text-primary/40">加载中...</div>}>
+      <AdminProductsInner />
+    </Suspense>
   );
 }

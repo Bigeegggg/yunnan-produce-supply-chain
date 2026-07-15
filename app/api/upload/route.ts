@@ -15,7 +15,7 @@ export async function POST(request: Request) {
 
   const buffer = Buffer.from(await request.arrayBuffer());
 
-  return new Promise((resolve) => {
+  return new Promise<Response>((resolve) => {
     const form = new multiparty.Form({ uploadDir });
     const req = new Readable({
       read() { this.push(buffer); this.push(null); }

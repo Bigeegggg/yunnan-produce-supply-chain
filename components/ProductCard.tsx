@@ -1,6 +1,6 @@
 import Image from "next/image";
 import YunnanBadge from "./YunnanBadge";
-import type { Product } from "@/data/types";
+import type { Product } from "@/lib/data";
 
 interface ProductCardProps {
   product: Product;
