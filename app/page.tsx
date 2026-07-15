@@ -2,7 +2,10 @@ import HeroBanner from "@/components/HeroBanner";
 import AdvantageCards from "@/components/AdvantageCards";
 import MountainDivider from "@/components/MountainDivider";
 import ProductCard from "@/components/ProductCard";
-import products from "@/data/products.json";
+import type { Product } from "@/data/types";
+import productsData from "@/data/products.json";
+
+const products = productsData as Product[];
 
 const featuredProducts = products.slice(0, 6);
 

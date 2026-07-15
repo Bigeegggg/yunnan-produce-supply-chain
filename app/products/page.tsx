@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import products from "@/data/products.json";
+import type { Product } from "@/data/types";
+import productsData from "@/data/products.json";
 import ProductCard from "@/components/ProductCard";
 import CategoryFilter from "@/components/CategoryFilter";
+
+const products = productsData as Product[];
 
 export default function ProductsPage() {
   const [activeCategory, setActiveCategory] = useState("全部");
