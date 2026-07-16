@@ -8,6 +8,8 @@ const NAV_ITEMS = [
   { href: "/admin", label: "仪表盘", icon: "📊" },
   { href: "/admin/products", label: "产品管理", icon: "📦" },
   { href: "/admin/quick-add", label: "快速录入", icon: "⚡" },
+  { href: "/admin/inquiries", label: "订单管理", icon: "📋" },
+  { href: "/admin/suppliers", label: "供应商电话", icon: "📞" },
   { href: "/admin/settings", label: "网站设置", icon: "⚙️" },
 ];
 
