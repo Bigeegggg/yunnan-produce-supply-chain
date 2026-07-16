@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 
 interface Inquiry {
@@ -65,7 +66,7 @@ export default function AdminInquiriesPage() {
             <div key={inq.id} className="bg-white rounded-card p-5 shadow-card">
               <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
                 <div>
-                  <span className="font-bold text-text-primary">{inq.customer_name}</span>
+                  <Link href={`/admin/inquiries/${inq.id}`} className="font-bold text-text-primary hover:text-primary transition-colors">{inq.customer_name}</Link>
                   <span className="text-text-primary/30 mx-2">|</span>
                   <span className="text-text-primary/60 text-sm">{inq.product_name || "未指定产品"}</span>
                 </div>
