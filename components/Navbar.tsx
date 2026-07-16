@@ -5,10 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
-  { href: "/", label: "首页" },
-  { href: "/products", label: "产品展示" },
-  { href: "/about", label: "关于我们" },
-  { href: "/contact", label: "合作咨询" },
+  { href: "/", label: "首页", en: "Home" },
+  { href: "/products", label: "产品展示", en: "Products" },
+  { href: "/about", label: "关于我们", en: "About" },
+  { href: "/contact", label: "合作咨询", en: "Contact" },
 ];
 
 export default function Navbar() {
@@ -24,9 +24,14 @@ export default function Navbar() {
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">云</span>
             </div>
-            <span className="text-lg font-bold text-primary tracking-wide">
-              云南高原供应链
-            </span>
+            <div className="leading-tight">
+              <span className="text-lg font-bold text-primary tracking-wide block">
+                云南高原供应链
+              </span>
+              <span className="text-[10px] text-text-primary/30 tracking-[0.2em] uppercase">
+                Yunnan Supply Chain
+              </span>
+            </div>
           </Link>
 
           {/* Desktop nav */}
@@ -41,7 +46,8 @@ export default function Navbar() {
                     : "text-text-primary/70 hover:text-primary hover:bg-primary/5"
                 }`}
               >
-                {link.label}
+                <span className="block leading-tight">{link.label}</span>
+                <span className="block text-[10px] font-normal text-text-primary/30 tracking-wider">{link.en}</span>
               </Link>
             ))}
             <Link
@@ -56,7 +62,7 @@ export default function Navbar() {
           <button
             className="md:hidden p-2"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="菜单"
+            aria-label="Menu"
           >
             <svg className="w-6 h-6 text-text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               {menuOpen ? (
@@ -83,6 +89,7 @@ export default function Navbar() {
                 }`}
               >
                 {link.label}
+                <span className="block text-[10px] font-normal text-text-primary/30 tracking-wider">{link.en}</span>
               </Link>
             ))}
           </div>
