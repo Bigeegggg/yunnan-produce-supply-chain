@@ -1,16 +1,36 @@
 "use client";
 
-import { useState, useEffect, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent, useRef } from "react";
 
 export default function LayoutEditorPage() {
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetch("/api/settings").then(r => r.json()).then(d => { setSettings(d); setLoaded(true); });
   }, []);
+
+  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const fd = new FormData();
+    fd.append("file", file);
+    try {
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      if (res.ok) {
+        const d = await res.json();
+        set("hero_image", d.url);
+        setMessage("✅ 图片已上传");
+        setTimeout(() => setMessage(""), 2000);
+      }
+    } catch {}
+    setUploading(false);
+  }
 
   function set(key: string, value: string) {
     setSettings(prev => ({ ...prev, [key]: value }));
@@ -55,12 +75,22 @@ export default function LayoutEditorPage() {
         <section className="bg-white rounded-card p-6 shadow-card">
           <h2 className="text-lg font-bold text-text-primary mb-4">🖼️ 首页横幅 (Hero)</h2>
           <div className="space-y-4">
-            {f("背景图片 URL", "hero_image", "input", "https://images.unsplash.com/photo-...")}
-            {settings.hero_image && (
-              <div className="relative h-32 rounded-lg overflow-hidden bg-sand">
-                <img src={settings.hero_image} alt="预览" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
+            <div>
+              <label className="block text-sm font-medium text-text-primary mb-2">背景图片</label>
+              <div className="flex flex-wrap gap-2 mb-2">
+                <label className="px-4 py-2 bg-white border border-sand rounded-lg text-sm cursor-pointer hover:border-primary transition-colors">
+                  {uploading ? "上传中..." : "📷 本地上传"}
+                  <input ref={fileRef} type="file" accept="image/*" onChange={handleUpload} className="hidden" disabled={uploading} />
+                </label>
+                <span className="text-text-primary/30 text-sm self-center">或</span>
+                <input value={settings.hero_image || ""} onChange={e => set("hero_image", e.target.value)} placeholder="输入图片URL" className="flex-1 px-4 py-2 bg-white border border-sand rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary min-w-[200px]" />
               </div>
-            )}
+              {settings.hero_image && (
+                <div className="relative h-32 rounded-lg overflow-hidden bg-sand">
+                  <img src={settings.hero_image} alt="预览" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                </div>
+              )}
+            </div>
             {f("主标题（中文）", "hero_title", "input", "云南高原蔬果供应链")}
             {f("英文标语", "hero_tagline_en", "input", "Yunnan Plateau · Fresh Produce · Global Supply")}
             {f("副标题（中文）", "hero_subtitle", "textarea", "源头种植 · 冷链直发 · 品控溯源")}
