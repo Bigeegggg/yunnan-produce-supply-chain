@@ -10,13 +10,18 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="bg-white rounded-card shadow-card hover:shadow-card-hover transition-all hover:-translate-y-1 overflow-hidden group terrace-edge">
       <div className="relative aspect-[4/3] bg-sand overflow-hidden">
-        <Image
-          src={product.image}
-          alt={product.name}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-        />
+        {product.image ? (
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            unoptimized
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-text-primary/20 text-sm">暂无图片</div>
+        )}
       </div>
       <div className="p-5">
         <div className="flex items-start justify-between mb-1">
