@@ -9,7 +9,6 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="bg-white rounded-card shadow-card hover:shadow-card-hover transition-all hover:-translate-y-1 overflow-hidden group terrace-edge">
-      {/* 图片区 */}
       <div className="relative aspect-[4/3] bg-sand overflow-hidden">
         <Image
           src={product.image}
@@ -19,10 +18,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
         />
       </div>
-
-      {/* 信息区 */}
       <div className="p-5">
-        <div className="flex items-start justify-between mb-2">
+        <div className="flex items-start justify-between mb-1">
           <h3 className="text-lg font-bold text-text-primary">{product.name}</h3>
           <YunnanBadge text={product.origin} />
         </div>
