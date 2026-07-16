@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { href: "/admin/inquiries", label: "订单管理", icon: "📋" },
   { href: "/admin/shipping", label: "运输方式", icon: "🚛" },
   { href: "/admin/suppliers", label: "供应商电话", icon: "📞" },
+  { href: "/admin/layout-editor", label: "页面布局", icon: "🎨" },
   { href: "/admin/settings", label: "网站设置", icon: "⚙️" },
 ];
 
