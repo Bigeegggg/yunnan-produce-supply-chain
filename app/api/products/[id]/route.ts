@@ -1,5 +1,16 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
+import fs from "fs";
+import path from "path";
+
+function syncProductsToJson() {
+  const db = getDb();
+  const all = db.prepare("SELECT * FROM products ORDER BY id ASC").all();
+  const dataDir = path.join(process.cwd(), "data");
+  if (fs.existsSync(dataDir)) {
+    fs.writeFileSync(path.join(dataDir, "products.json"), JSON.stringify(all, null, 2), "utf-8");
+  }
+}
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -30,6 +41,9 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   ).run(name, category, origin, season, spec, image, description, published, Number(id));
 
   const updated = db.prepare("SELECT * FROM products WHERE id = ?").get(Number(id));
+
+  syncProductsToJson();
+
   return NextResponse.json(updated);
 }
 
@@ -39,5 +53,8 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
   const existing = db.prepare("SELECT * FROM products WHERE id = ?").get(Number(id));
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
   db.prepare("DELETE FROM products WHERE id = ?").run(Number(id));
+
+  syncProductsToJson();
+
   return NextResponse.json({ success: true });
 }

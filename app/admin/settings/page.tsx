@@ -82,6 +82,11 @@ export default function AdminSettingsPage() {
         <button type="submit" disabled={saving} className="w-full py-3 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors disabled:opacity-50">
           {saving ? "保存中..." : "保存设置"}
         </button>
+
+        <div className="bg-accent/5 border border-accent/10 rounded-lg p-4 text-sm text-text-primary/60 mt-6">
+          <p className="font-medium text-accent mb-1">💡 如何更新线上网站</p>
+          <p>在本地修改并保存后，将 <code className="bg-accent/10 px-1.5 py-0.5 rounded text-xs">data/</code> 文件夹的改动推送到 GitHub，Vercel 会自动部署更新。</p>
+        </div>
       </form>
     </div>
   );

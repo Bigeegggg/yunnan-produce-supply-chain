@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
+import fs from "fs";
+import path from "path";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -32,5 +34,13 @@ export async function POST(request: Request) {
     "INSERT INTO products (name, category, origin, season, spec, image, description, published) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
   ).run(name, category, origin, season || "", spec || "", image || "", description || "", published !== undefined ? (published ? 1 : 0) : 1);
   const product = db.prepare("SELECT * FROM products WHERE id = ?").get(result.lastInsertRowid);
+
+  // Sync to JSON for Vercel deployment
+  const allProducts = db.prepare("SELECT * FROM products ORDER BY id ASC").all();
+  const dataDir = path.join(process.cwd(), "data");
+  if (fs.existsSync(dataDir)) {
+    fs.writeFileSync(path.join(dataDir, "products.json"), JSON.stringify(allProducts, null, 2), "utf-8");
+  }
+
   return NextResponse.json(product, { status: 201 });
 }
