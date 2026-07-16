@@ -36,6 +36,11 @@ yarn-error.log*
 # vercel
 .vercel
 
+# admin secrets
+.admin-hash
+data/app.db
+public/uploads/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
