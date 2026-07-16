@@ -39,6 +39,8 @@ yarn-error.log*
 # admin secrets
 .admin-hash
 data/app.db
+data/app.db-shm
+data/app.db-wal
 public/uploads/
 
 # typescript

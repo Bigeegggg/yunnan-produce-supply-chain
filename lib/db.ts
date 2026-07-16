@@ -59,6 +59,7 @@ export function initDb(): void {
       name TEXT NOT NULL,
       phone TEXT NOT NULL,
       notes TEXT NOT NULL DEFAULT '',
+      cooperation_record TEXT NOT NULL DEFAULT '',
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
   `);

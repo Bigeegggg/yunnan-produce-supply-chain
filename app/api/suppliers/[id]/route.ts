@@ -10,7 +10,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   const name = body.name ?? (existing as any).name;
   const phone = body.phone ?? (existing as any).phone;
   const notes = body.notes ?? (existing as any).notes;
-  db.prepare("UPDATE supplier_contacts SET name=?, phone=?, notes=? WHERE id=?").run(name, phone, notes, Number(id));
+  const cooperation_record = body.cooperation_record ?? (existing as any).cooperation_record;
+  db.prepare("UPDATE supplier_contacts SET name=?, phone=?, notes=?, cooperation_record=? WHERE id=?").run(name, phone, notes, cooperation_record, Number(id));
   const updated = db.prepare("SELECT * FROM supplier_contacts WHERE id = ?").get(Number(id));
   return NextResponse.json(updated);
 }
