@@ -40,6 +40,27 @@ export function initDb(): void {
       value TEXT NOT NULL DEFAULT '',
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
+
+    CREATE TABLE IF NOT EXISTS inquiries (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      product_name TEXT NOT NULL DEFAULT '',
+      customer_name TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      quantity TEXT NOT NULL DEFAULT '',
+      notes TEXT NOT NULL DEFAULT '',
+      status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','processing','contacted','closed')),
+      admin_notes TEXT NOT NULL DEFAULT '',
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS supplier_contacts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      notes TEXT NOT NULL DEFAULT '',
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
   `);
 
   // Migrate from products.json if empty
