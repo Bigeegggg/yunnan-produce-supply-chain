@@ -33,6 +33,15 @@ export default function ProductCard({ product }: ProductCardProps) {
           </span>
           <span>{product.spec}</span>
         </div>
+        <div className="mt-4 pt-3 border-t border-sand/30">
+          <a
+            href={`/inquire?product=${encodeURIComponent(product.name)}`}
+            className="block w-full text-center py-2 bg-primary/5 text-primary text-sm font-medium rounded-lg hover:bg-primary hover:text-white transition-colors"
+          >
+            咨询下单
+            <span className="block text-[10px] font-normal text-primary/40">Inquire</span>
+          </a>
+        </div>
       </div>
     </div>
   );
