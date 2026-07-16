@@ -3,7 +3,7 @@ import { getDb } from "@/lib/db";
 
 // Rate limiter for public submissions
 const inquiryRateMap = new Map<string, { count: number; resetAt: number }>();
-const INQUIRY_MAX = 3; // max 3 submissions
+const INQUIRY_MAX = 20; // max 20 submissions
 const INQUIRY_WINDOW = 60 * 60 * 1000; // per hour
 
 function getIP(request: Request): string {
