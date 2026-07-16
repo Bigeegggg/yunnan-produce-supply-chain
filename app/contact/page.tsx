@@ -84,7 +84,7 @@ export default function ContactPage() {
                 ))}
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0"><span className="text-primary text-lg">💬</span></div>
-                  <div><h4 className="font-semibold text-text-primary mb-1">微信</h4><div className="w-32 h-32 bg-sand rounded-card flex items-center justify-center"><span className="text-text-primary/30 text-xs">二维码（待提供）</span></div></div>
+                  <div><h4 className="font-semibold text-text-primary mb-1">微信</h4><p className="text-text-primary/60 text-sm">{settings.company_wechat || "待补充"}</p></div>
                 </div>
               </div>
             </div>

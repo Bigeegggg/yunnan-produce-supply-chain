@@ -55,6 +55,7 @@ export default function AdminSettingsPage() {
             {f("联系电话", "company_phone")}
             {f("联系邮箱", "company_email")}
             {f("公司地址", "company_address")}
+            {f("微信号", "company_wechat")}
           </div>
         </section>
 

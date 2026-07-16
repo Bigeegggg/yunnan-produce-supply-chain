@@ -64,7 +64,7 @@ export default function InquireForm() {
             </div>
             <div>
               <label className="block text-sm font-medium text-text-primary mb-2">预计数量</label>
-              <input value={quantity} onChange={e => setQuantity(e.target.value)} className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary" placeholder="如：100kg/月" />
+              <input value={quantity} onChange={e => setQuantity(e.target.value)} className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary" placeholder="如：100kg" />
             </div>
             <div>
               <label className="block text-sm font-medium text-text-primary mb-2">备注</label>
