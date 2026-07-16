@@ -1,12 +1,11 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-// Read from .admin-hash file
-export const PASSWORD_HASH = "$2b$10$whhB2vACGeaPWv9ui8cvseI6ypr2WQc5V6kB.7hrxX1tW1rlg0qva";
-
-export const JWT_SECRET = "yunnan-produce-admin-jwt-secret-2026";
+export const PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || "";
+export const JWT_SECRET = process.env.JWT_SECRET || "fallback-dev-secret";
 
 export function verifyPassword(password: string): boolean {
+  if (!PASSWORD_HASH) return false;
   return bcrypt.compareSync(password, PASSWORD_HASH);
 }
 
