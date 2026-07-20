@@ -87,6 +87,7 @@ export function initDb(): void {
 
     CREATE TABLE IF NOT EXISTS videos (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      product_id INTEGER DEFAULT 0,
       title TEXT NOT NULL,
       url TEXT NOT NULL,
       platform TEXT DEFAULT 'direct',

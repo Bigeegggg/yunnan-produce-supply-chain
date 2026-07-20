@@ -16,6 +16,8 @@ export default function AdminVideosPage() {
   const [platform, setPlatform] = useState("direct");
   const [thumbnail, setThumbnail] = useState("");
   const [notes, setNotes] = useState("");
+  const [productId, setProductId] = useState("");
+  const [products, setProducts] = useState<any[]>([]);
   const [saving, setSaving] = useState(false);
 
   const fetchData = useCallback(async () => {
@@ -24,9 +26,12 @@ export default function AdminVideosPage() {
   }, []);
 
   useEffect(() => { fetchData(); }, [fetchData]);
+  useEffect(() => {
+    fetch("/api/products").then(r => r.json()).then(d => { if (Array.isArray(d)) setProducts(d); });
+  }, []);
 
-  function openNew() { setEditId(null); setTitle(""); setUrl(""); setPlatform("direct"); setThumbnail(""); setNotes(""); setShowForm(true); }
-  function openEdit(v: Video) { setEditId(v.id); setTitle(v.title); setUrl(v.url); setPlatform(v.platform); setThumbnail(v.thumbnail); setNotes(v.notes); setShowForm(true); }
+  function openNew() { setEditId(null); setTitle(""); setUrl(""); setPlatform("direct"); setThumbnail(""); setNotes(""); setProductId(""); setShowForm(true); }
+  function openEdit(v: any) { setEditId(v.id); setTitle(v.title); setUrl(v.url); setPlatform(v.platform); setThumbnail(v.thumbnail); setNotes(v.notes); setProductId(String(v.product_id || "")); setShowForm(true); }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -34,7 +39,7 @@ export default function AdminVideosPage() {
     setSaving(true);
     const apiUrl = editId ? `/api/videos/${editId}` : "/api/videos";
     const method = editId ? "PUT" : "POST";
-    await fetch(apiUrl, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title, url, platform, thumbnail, notes }) });
+    await fetch(apiUrl, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title, url, platform, thumbnail, notes, product_id: productId ? Number(productId) : 0 }) });
     setSaving(false);
     setShowForm(false);
     fetchData();
@@ -64,6 +69,13 @@ export default function AdminVideosPage() {
             <div className="sm:col-span-2">
               <label className="block text-xs font-medium text-text-primary/50 mb-1">视频链接 *</label>
               <input value={url} onChange={e => setUrl(e.target.value)} required placeholder="YouTube/B站链接 或 MP4直链" className="w-full px-4 py-2.5 border border-sand rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
+            </div>
+            <div className="sm:col-span-2">
+              <label className="block text-xs font-medium text-text-primary/50 mb-1">关联产品</label>
+              <select value={productId} onChange={e => setProductId(e.target.value)} className="w-full px-4 py-2.5 border border-sand rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                <option value="">不关联（首页展示）</option>
+                {products.map((p: any) => <option key={p.id} value={p.id}>{p.name}</option>)}
+              </select>
             </div>
             <div>
               <label className="block text-xs font-medium text-text-primary/50 mb-1">平台</label>

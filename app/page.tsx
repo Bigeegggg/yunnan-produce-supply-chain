@@ -2,7 +2,6 @@ import HeroBanner from "@/components/HeroBanner";
 import AdvantageCards from "@/components/AdvantageCards";
 import MountainDivider from "@/components/MountainDivider";
 import ProductCard from "@/components/ProductCard";
-import VideoShowcase from "@/components/VideoShowcase";
 import { getPublishedProducts, type Product } from "@/lib/data";
 
 export default function Home() {
@@ -14,7 +13,6 @@ export default function Home() {
       <HeroBanner />
       <AdvantageCards />
       <MountainDivider />
-      <VideoShowcase />
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">

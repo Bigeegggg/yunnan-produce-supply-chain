@@ -12,7 +12,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   const platform = body.platform ?? (existing as any).platform;
   const thumbnail = body.thumbnail ?? (existing as any).thumbnail;
   const notes = body.notes ?? (existing as any).notes;
-  db.prepare("UPDATE videos SET title=?, url=?, platform=?, thumbnail=?, notes=? WHERE id=?").run(title, url, platform, thumbnail, notes, Number(id));
+  const product_id = body.product_id ?? (existing as any).product_id ?? 0;
+  db.prepare("UPDATE videos SET product_id=?, title=?, url=?, platform=?, thumbnail=?, notes=? WHERE id=?").run(product_id, title, url, platform, thumbnail, notes, Number(id));
   const updated = db.prepare("SELECT * FROM videos WHERE id = ?").get(Number(id));
   return NextResponse.json(updated);
 }
