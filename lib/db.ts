@@ -71,6 +71,19 @@ export function initDb(): void {
       notes TEXT NOT NULL DEFAULT '',
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
+
+    CREATE TABLE IF NOT EXISTS trace_batches (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      product_id INTEGER NOT NULL,
+      batch_code TEXT NOT NULL UNIQUE,
+      origin_info TEXT DEFAULT '',
+      production_info TEXT DEFAULT '',
+      testing_info TEXT DEFAULT '',
+      logistics_info TEXT DEFAULT '',
+      status TEXT DEFAULT 'active' CHECK(status IN ('active','archived')),
+      created_at TEXT DEFAULT (datetime('now')),
+      updated_at TEXT DEFAULT (datetime('now'))
+    );
   `);
 
   // Migrate from products.json if empty
