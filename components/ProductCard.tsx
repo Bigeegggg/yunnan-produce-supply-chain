@@ -10,7 +10,22 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <div className="bg-white rounded-card shadow-card hover:shadow-card-hover transition-all hover:-translate-y-1 overflow-hidden group terrace-edge">
+    <div className="relative bg-white rounded-card shadow-card hover:shadow-card-hover transition-all hover:-translate-y-1 overflow-hidden group terrace-edge">
+      {/* 溯源角标 — 左上角彩色丝带 */}
+      <a
+        href={`/trace?product_id=${product.id}`}
+        onClick={e => e.stopPropagation()}
+        className="absolute top-3 left-0 z-10"
+      >
+        <div className="bg-accent text-white text-[11px] font-bold px-3 py-1.5 rounded-r-lg shadow-md flex items-center gap-1 hover:bg-accent-dark transition-colors">
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          可溯源
+        </div>
+      </a>
+
+      {/* 图片区 */}
       <div className="relative aspect-[4/3] bg-sand overflow-hidden">
         {product.image ? (
           <Image
@@ -25,13 +40,12 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="w-full h-full flex items-center justify-center text-text-primary/20 text-sm">暂无图片</div>
         )}
       </div>
+
+      {/* 信息区 */}
       <div className="p-5">
         <div className="flex items-start justify-between mb-1">
           <h3 className="text-lg font-bold text-text-primary">{product.name}</h3>
-          <div className="flex items-center gap-1">
-            <YunnanBadge text={product.origin} />
-            <a href={`/trace?product_id=${product.id}`} onClick={e => e.stopPropagation()} className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-green-50 text-green-600 text-[10px] font-medium rounded-full hover:bg-green-100 transition-colors">✓ 溯源</a>
-          </div>
+          <YunnanBadge text={product.origin} />
         </div>
         <p className="text-text-primary/50 text-sm mb-3 line-clamp-2">{product.description}</p>
         <div className="flex items-center gap-4 text-xs text-text-primary/40">
