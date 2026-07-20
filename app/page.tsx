@@ -45,7 +45,7 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { step: "01", title: "咨询选品", desc: "告知需求，我们推荐合适产品与报价", icon: "💬" },
-              { step: "02", title: "寄样确认", desc: "免费寄送样品，确认品质与规格", icon: "📮" },
+              { step: "02", title: "确定品质", desc: "确认产品规格与质量标准，锁定供应方案", icon: "✅" },
               { step: "03", title: "签约排产", desc: "签订合同，锁定价格与供应周期", icon: "📋" },
               { step: "04", title: "冷链发货", desc: "产地直发，48小时内冷链送达", icon: "✈️" },
             ].map(f => (

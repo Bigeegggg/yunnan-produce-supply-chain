@@ -49,7 +49,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                   咨询下单
                 </Link>
                 {traceBatches.length > 0 && (
-                  <Link href={`/trace?product_id=${product.id}`} className="px-6 py-3 bg-accent text-white font-semibold rounded-lg hover:bg-accent-dark transition-colors">
+                  <Link href={`/api/trace/redirect?product_id=${product.id}`} className="px-6 py-3 bg-accent text-white font-semibold rounded-lg hover:bg-accent-dark transition-colors">
                     查看溯源
                   </Link>
                 )}

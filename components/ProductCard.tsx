@@ -12,7 +12,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="bg-white rounded-card shadow-card hover:shadow-card-hover transition-all hover:-translate-y-1 overflow-hidden group terrace-edge">
       {/* 溯源角标 */}
-      <a href={`/trace?product_id=${product.id}`} onClick={e => e.stopPropagation()} className="absolute top-3 left-0 z-10">
+      <a href={`/api/trace/redirect?product_id=${product.id}`} onClick={e => e.stopPropagation()} className="absolute top-3 left-0 z-10">
         <div className="bg-accent text-white text-[11px] font-bold px-3 py-1.5 rounded-r-lg shadow-md flex items-center gap-1 hover:bg-accent-dark transition-colors">
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
           可溯源
@@ -40,7 +40,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
         {/* 两个按钮并列 */}
         <div className="grid grid-cols-2 gap-2 pt-3 border-t border-sand/30">
-          <a href={`/trace?product_id=${product.id}`} onClick={e => e.stopPropagation()} className="block text-center py-2 bg-accent/10 text-accent text-sm font-semibold rounded-lg hover:bg-accent hover:text-white transition-colors">
+          <a href={`/api/trace/redirect?product_id=${product.id}`} onClick={e => e.stopPropagation()} className="block text-center py-2 bg-accent/10 text-accent text-sm font-semibold rounded-lg hover:bg-accent hover:text-white transition-colors">
             溯源查询
           </a>
           <a href={`/inquire?product=${encodeURIComponent(product.name)}`} onClick={e => e.stopPropagation()} className="block text-center py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary-dark transition-colors">
