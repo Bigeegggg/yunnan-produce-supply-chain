@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import YunnanBadge from "./YunnanBadge";
 import type { Product } from "@/lib/data";
@@ -26,7 +28,10 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="p-5">
         <div className="flex items-start justify-between mb-1">
           <h3 className="text-lg font-bold text-text-primary">{product.name}</h3>
-          <YunnanBadge text={product.origin} />
+          <div className="flex items-center gap-1">
+            <YunnanBadge text={product.origin} />
+            <a href={`/trace?product_id=${product.id}`} onClick={e => e.stopPropagation()} className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-green-50 text-green-600 text-[10px] font-medium rounded-full hover:bg-green-100 transition-colors">✓ 溯源</a>
+          </div>
         </div>
         <p className="text-text-primary/50 text-sm mb-3 line-clamp-2">{product.description}</p>
         <div className="flex items-center gap-4 text-xs text-text-primary/40">

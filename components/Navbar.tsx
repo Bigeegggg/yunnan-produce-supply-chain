@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 const NAV_LINKS = [
   { href: "/", label: "首页", en: "Home" },
   { href: "/products", label: "产品展示", en: "Products" },
+  { href: "/trace", label: "溯源查询", en: "Trace" },
   { href: "/about", label: "关于我们", en: "About" },
   { href: "/contact", label: "合作咨询", en: "Contact" },
 ];
