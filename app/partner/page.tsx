@@ -37,13 +37,6 @@ export default function PartnerPage() {
     });
   }, []);
 
-  if (!authed && videos.length === 0) {
-    // Attempt to auth check
-    fetch("/api/products").then(r => {
-      if (r.status === 401) router.push("/partner/login");
-    });
-  }
-
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!title || !url) return;
