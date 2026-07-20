@@ -2,6 +2,7 @@ import HeroBanner from "@/components/HeroBanner";
 import AdvantageCards from "@/components/AdvantageCards";
 import MountainDivider from "@/components/MountainDivider";
 import ProductCard from "@/components/ProductCard";
+import VideoShowcase from "@/components/VideoShowcase";
 import { getPublishedProducts, type Product } from "@/lib/data";
 
 export default function Home() {
@@ -42,6 +43,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <VideoShowcase />
     </>
   );
 }
