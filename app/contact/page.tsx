@@ -31,6 +31,33 @@ export default function ContactPage() {
           <p className="text-text-primary/50 max-w-xl mx-auto">期待与您携手，让云南高原的优质蔬果走进千家万户</p>
         </div>
       </section>
+      {/* FAQ */}
+      <section className="py-16 bg-white">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-bold text-text-primary tracking-wide mb-2">常见问题</h2>
+            <p className="text-xs font-light tracking-[0.2em] uppercase text-text-primary/25">FAQ</p>
+          </div>
+          <div className="space-y-3">
+            {[
+              { q: "怎么开始合作？", a: "通过合作咨询表单或直接电话联系我们，告诉我们您的需求，我们会在24小时内回复并提供产品报价和样品。" },
+              { q: "最小起订量是多少？", a: "不同产品起订量不同，一般为100kg起。我们支持小批量试单，具体可协商。" },
+              { q: "物流怎么解决？", a: "我们提供全程冷链物流服务，48小时内从云南产地直达全国主要城市。也可由您指定物流公司。" },
+              { q: "品质如何保证？", a: "每批次产品均可溯源，提供第三方检测报告。我们所有合作基地均通过国家绿色食品认证。" },
+              { q: "可以开发票吗？", a: "可以。我们支持增值税普通发票和专用发票，对公账户结算。" },
+            ].map((item, i) => (
+              <details key={i} className="bg-warm rounded-card group">
+                <summary className="px-6 py-4 cursor-pointer font-medium text-text-primary list-none flex items-center justify-between">
+                  {item.q}
+                  <svg className="w-4 h-4 text-text-primary/30 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                </summary>
+                <p className="px-6 pb-4 text-text-primary/60 text-sm leading-relaxed">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
