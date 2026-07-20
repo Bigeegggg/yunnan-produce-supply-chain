@@ -93,9 +93,17 @@ export function initDb(): void {
       platform TEXT DEFAULT 'direct',
       thumbnail TEXT DEFAULT '',
       notes TEXT DEFAULT '',
+      status TEXT DEFAULT 'approved' CHECK(status IN ('pending','approved','rejected')),
+      submitted_by TEXT DEFAULT '',
       created_at TEXT DEFAULT (datetime('now'))
     );
   `);
+
+  // Migrate videos table — add new columns for existing databases
+  try { database.exec("ALTER TABLE videos ADD COLUMN status TEXT DEFAULT 'approved' CHECK(status IN ('pending','approved','rejected'))"); } catch {}
+  try { database.exec("ALTER TABLE videos ADD COLUMN submitted_by TEXT DEFAULT ''"); } catch {}
+  // Set default status for existing rows
+  database.prepare("UPDATE videos SET status = 'approved' WHERE status IS NULL OR status = ''").run();
 
   // Migrate from products.json if empty
   const count = database.prepare("SELECT COUNT(*) as c FROM products").get() as { c: number };

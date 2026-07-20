@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, type FormEvent } from "react";
 
 interface Video {
   id: number; title: string; url: string; platform: string;
-  thumbnail: string; notes: string; created_at: string;
+  thumbnail: string; notes: string; status: string; submitted_by: string; created_at: string;
 }
 
 export default function AdminVideosPage() {
@@ -19,6 +19,7 @@ export default function AdminVideosPage() {
   const [productId, setProductId] = useState("");
   const [products, setProducts] = useState<any[]>([]);
   const [saving, setSaving] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("");
 
   const fetchData = useCallback(async () => {
     const res = await fetch("/api/videos");
@@ -29,6 +30,8 @@ export default function AdminVideosPage() {
   useEffect(() => {
     fetch("/api/products").then(r => r.json()).then(d => { if (Array.isArray(d)) setProducts(d); });
   }, []);
+
+  const filtered = statusFilter ? videos.filter((v: any) => v.status === statusFilter) : videos;
 
   function openNew() { setEditId(null); setTitle(""); setUrl(""); setPlatform("direct"); setThumbnail(""); setNotes(""); setProductId(""); setShowForm(true); }
   function openEdit(v: any) { setEditId(v.id); setTitle(v.title); setUrl(v.url); setPlatform(v.platform); setThumbnail(v.thumbnail); setNotes(v.notes); setProductId(String(v.product_id || "")); setShowForm(true); }
@@ -51,11 +54,34 @@ export default function AdminVideosPage() {
     fetchData();
   }
 
+  async function approveVideo(id: number) {
+    await fetch(`/api/videos/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: "approved" }) });
+    fetchData();
+  }
+
+  async function rejectVideo(id: number) {
+    await fetch(`/api/videos/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: "rejected" }) });
+    fetchData();
+  }
+
+  const statusLabel = (s: string) => {
+    if (s === "approved") return <span className="px-2 py-0.5 bg-green-100 text-green-700 text-[10px] rounded-full">已通过</span>;
+    if (s === "rejected") return <span className="px-2 py-0.5 bg-red-100 text-red-600 text-[10px] rounded-full">已拒绝</span>;
+    return <span className="px-2 py-0.5 bg-accent/10 text-accent text-[10px] rounded-full">待审核</span>;
+  };
+
   return (
     <div className="p-6 max-w-5xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-text-primary">视频管理</h1>
         <button onClick={openNew} className="px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary-dark transition-colors shadow-sm">+ 新增视频</button>
+      </div>
+
+      {/* Status filter */}
+      <div className="flex gap-2 mb-6">
+        {["", "approved", "pending", "rejected"].map(s => (
+          <button key={s} onClick={() => setStatusFilter(s)} className={`px-4 py-2 rounded-full text-sm font-medium ${statusFilter === s ? "bg-primary text-white" : "bg-white text-text-primary/60 border border-sand"}`}>{s === "" ? "全部" : s === "approved" ? "已通过" : s === "pending" ? "待审核" : "已拒绝"}</button>
+        ))}
       </div>
 
       {showForm && (
@@ -102,7 +128,7 @@ export default function AdminVideosPage() {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {videos.map(v => (
+        {filtered.map(v => (
           <div key={v.id} className="bg-white rounded-card shadow-card overflow-hidden">
             <div className="relative aspect-video bg-black flex items-center justify-center">
               {v.platform === "youtube" || v.platform === "bilibili" ? (
@@ -112,16 +138,26 @@ export default function AdminVideosPage() {
               )}
             </div>
             <div className="p-4">
-              <h3 className="font-semibold text-text-primary text-sm mb-1">{v.title}</h3>
-              <p className="text-text-primary/40 text-xs mb-3">{v.notes || v.platform}</p>
+              <div className="flex items-center justify-between mb-1">
+                <h3 className="font-semibold text-text-primary text-sm">{v.title}</h3>
+                {statusLabel(v.status)}
+              </div>
+              <p className="text-text-primary/40 text-xs mb-2">{v.notes || v.platform}</p>
+              {v.submitted_by && <p className="text-text-primary/20 text-[10px] mb-2">投稿：{v.submitted_by}</p>}
               <div className="flex gap-2">
+                {v.status === "pending" && (
+                  <>
+                    <button onClick={() => approveVideo(v.id)} className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-lg hover:bg-green-200 transition-colors">通过</button>
+                    <button onClick={() => rejectVideo(v.id)} className="px-3 py-1 bg-red-100 text-red-600 text-xs font-semibold rounded-lg hover:bg-red-200 transition-colors">拒绝</button>
+                  </>
+                )}
                 <button onClick={() => openEdit(v)} className="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-lg hover:bg-primary hover:text-white transition-colors">编辑</button>
                 <button onClick={() => deleteVideo(v.id)} className="px-3 py-1 bg-red-50 text-red-500 text-xs font-semibold rounded-lg hover:bg-red-500 hover:text-white transition-colors">删除</button>
               </div>
             </div>
           </div>
         ))}
-        {videos.length === 0 && <div className="col-span-full py-16 text-center text-text-primary/30 text-sm">暂无视频，点击右上角新增</div>}
+        {filtered.length === 0 && <div className="col-span-full py-16 text-center text-text-primary/30 text-sm">暂无视频</div>}
       </div>
     </div>
   );
