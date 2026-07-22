@@ -1,15 +1,10 @@
 "use client";
 
 import { useState, type FormEvent, useEffect } from "react";
-
-const COOPERATION_MODES = [
-  { title: "经销合作", description: "面向各地批发市场经销商，提供稳定供应和价格保障，支持小批量试单。", icon: "🤝" },
-  { title: "商超直供", description: "为连锁超市、生鲜门店提供定制化供货方案，含预包装、品牌代工。", icon: "🏪" },
-  { title: "社区团购", description: "支持社区团购平台一件代发，产地直发，减少中间环节。", icon: "📦" },
-  { title: "一件代发", description: "产地一件代发服务，适合电商卖家、直播带货渠道。", icon: "🚀" },
-];
+import { useT } from "@/lib/i18n";
 
 export default function ContactPage() {
+  const { t } = useT();
   const [submitted, setSubmitted] = useState(false);
   const [settings, setSettings] = useState<Record<string, string>>({});
 
@@ -19,33 +14,45 @@ export default function ContactPage() {
 
   function handleSubmit(e: FormEvent) { e.preventDefault(); setSubmitted(true); }
 
-  const phone = settings.company_phone || "待补充";
-  const email = settings.company_email || "待补充";
-  const address = settings.company_address || "云南省昆明市（地址待补充）";
+  const phone = settings.company_phone || "TBD";
+  const email = settings.company_email || "TBD";
+  const address = settings.company_address || "Kunming, Yunnan";
+  const wechat = settings.company_wechat || "TBD";
+
+  const COOPERATION_MODES = [
+    { title: t.coop_dealer, description: t.coop_dealer_desc, icon: "🤝" },
+    { title: t.coop_supermarket, description: t.coop_supermarket_desc, icon: "🏪" },
+    { title: t.coop_group, description: t.coop_group_desc, icon: "📦" },
+    { title: t.coop_dropship, description: t.coop_dropship_desc, icon: "🚀" },
+  ];
+
+  const FAQ_ITEMS = [
+    { q: t.faq_q1, a: t.faq_a1 },
+    { q: t.faq_q2, a: t.faq_a2 },
+    { q: t.faq_q3, a: t.faq_a3 },
+    { q: t.faq_q4, a: t.faq_a4 },
+    { q: t.faq_q5, a: t.faq_a5 },
+  ];
 
   return (
     <>
       <section className="pt-28 pb-12 bg-warm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-text-primary tracking-wide mb-4">合作咨询</h1>
-          <p className="text-text-primary/50 max-w-xl mx-auto">期待与您携手，让云南高原的优质蔬果走进千家万户</p>
+          <h1 className="text-4xl sm:text-5xl font-bold text-text-primary tracking-wide mb-2">{t.contact_title}</h1>
+          <p className="text-xs sm:text-sm font-light tracking-[0.2em] uppercase text-text-primary/25 mb-4">{t.contact_title_en}</p>
+          <p className="text-text-primary/50 max-w-xl mx-auto">{t.contact_subtitle}</p>
         </div>
       </section>
+
       {/* FAQ */}
       <section className="py-16 bg-white">
         <div className="max-w-3xl mx-auto px-4">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-text-primary tracking-wide mb-2">常见问题</h2>
-            <p className="text-xs font-light tracking-[0.2em] uppercase text-text-primary/25">FAQ</p>
+            <h2 className="text-2xl font-bold text-text-primary tracking-wide mb-2">{t.faq_title}</h2>
+            <p className="text-xs font-light tracking-[0.2em] uppercase text-text-primary/25">{t.faq_title_en}</p>
           </div>
           <div className="space-y-3">
-            {[
-              { q: "怎么开始合作？", a: "通过合作咨询表单或直接电话联系我们，告诉我们您的需求，我们会在24小时内回复并提供产品报价和样品。" },
-              { q: "最小起订量是多少？", a: "不同产品起订量不同，一般为100kg起。我们支持小批量试单，具体可协商。" },
-              { q: "物流怎么解决？", a: "我们提供全程冷链物流服务，48小时内从云南产地直达全国主要城市。也可由您指定物流公司。" },
-              { q: "品质如何保证？", a: "每批次产品均可溯源，提供第三方检测报告。我们所有合作基地均通过国家绿色食品认证。" },
-              { q: "可以开发票吗？", a: "可以。我们支持增值税普通发票和专用发票，对公账户结算。" },
-            ].map((item, i) => (
+            {FAQ_ITEMS.map((item, i) => (
               <details key={i} className="bg-warm rounded-card group">
                 <summary className="px-6 py-4 cursor-pointer font-medium text-text-primary list-none flex items-center justify-between">
                   {item.q}
@@ -61,11 +68,12 @@ export default function ContactPage() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl font-bold text-text-primary tracking-wide mb-4">合作方式</h2>
-            <p className="text-text-primary/50 max-w-xl mx-auto">灵活多样的合作模式，满足不同渠道需求</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-text-primary tracking-wide mb-2">{t.contact_coop_title}</h2>
+            <p className="text-xs sm:text-sm font-light tracking-[0.2em] uppercase text-text-primary/25 mb-4">{t.contact_coop_title_en}</p>
+            <p className="text-text-primary/50 max-w-xl mx-auto">{t.contact_coop_subtitle}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {COOPERATION_MODES.map((mode) => (
+            {COOPERATION_MODES.map(mode => (
               <div key={mode.title} className="bg-warm rounded-card p-6 shadow-card text-center hover:-translate-y-1 transition-transform">
                 <div className="text-4xl mb-4">{mode.icon}</div>
                 <h3 className="text-lg font-bold text-text-primary mb-3">{mode.title}</h3>
@@ -75,35 +83,36 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
       <section className="py-20 bg-warm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <div>
-              <h2 className="text-2xl font-bold text-text-primary mb-8 tracking-wide">在线咨询</h2>
+              <h2 className="text-2xl font-bold text-text-primary mb-8 tracking-wide">{t.contact_form_title}</h2>
               {submitted ? (
                 <div className="bg-primary/10 border border-primary/20 rounded-card p-8 text-center">
-                  <div className="text-4xl mb-4">🎉</div>
-                  <h3 className="text-xl font-bold text-primary mb-2">提交成功！</h3>
-                  <p className="text-text-primary/60">感谢您的咨询，我们将尽快与您联系。</p>
+                  <div className="text-4xl mb-4">✅</div>
+                  <h3 className="text-xl font-bold text-primary mb-2">{t.contact_form_success}</h3>
+                  <p className="text-text-primary/60">{t.contact_form_success_desc}</p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
-                  <div><label className="block text-sm font-medium text-text-primary mb-2">姓名</label><input type="text" required className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary" placeholder="您的姓名" /></div>
-                  <div><label className="block text-sm font-medium text-text-primary mb-2">手机号</label><input type="tel" required className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary" placeholder="您的手机号" /></div>
-                  <div><label className="block text-sm font-medium text-text-primary mb-2">公司名称</label><input type="text" className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary" placeholder="您的公司（选填）" /></div>
-                  <div><label className="block text-sm font-medium text-text-primary mb-2">需求描述</label><textarea rows={4} required className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary resize-none" placeholder="请描述您的合作需求..." /></div>
-                  <button type="submit" className="w-full py-3 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">提交咨询</button>
+                  <div><label className="block text-sm font-medium text-text-primary mb-2">{t.contact_form_name}</label><input type="text" required className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary" /></div>
+                  <div><label className="block text-sm font-medium text-text-primary mb-2">{t.contact_form_phone}</label><input type="tel" required className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary" /></div>
+                  <div><label className="block text-sm font-medium text-text-primary mb-2">{t.contact_form_company}</label><input type="text" className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary" /></div>
+                  <div><label className="block text-sm font-medium text-text-primary mb-2">{t.contact_form_desc}</label><textarea rows={4} required className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary resize-none" /></div>
+                  <button type="submit" className="w-full py-3 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-colors">{t.contact_form_submit}</button>
                 </form>
               )}
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-text-primary mb-8 tracking-wide">联系方式</h2>
+              <h2 className="text-2xl font-bold text-text-primary mb-8 tracking-wide">{t.contact_info_title}</h2>
               <div className="space-y-6">
                 {[
-                  { icon: "📍", title: "地址", detail: address },
-                  { icon: "📞", title: "电话", detail: phone },
-                  { icon: "📧", title: "邮箱", detail: email },
-                ].map((item) => (
+                  { icon: "📍", title: t.contact_address, detail: address },
+                  { icon: "📞", title: t.contact_phone, detail: phone },
+                  { icon: "📧", title: t.contact_email, detail: email },
+                ].map(item => (
                   <div key={item.title} className="flex items-start gap-4">
                     <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0"><span className="text-primary text-lg">{item.icon}</span></div>
                     <div><h4 className="font-semibold text-text-primary mb-1">{item.title}</h4><p className="text-text-primary/60 text-sm">{item.detail}</p></div>
@@ -111,7 +120,7 @@ export default function ContactPage() {
                 ))}
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0"><span className="text-primary text-lg">💬</span></div>
-                  <div><h4 className="font-semibold text-text-primary mb-1">微信</h4><p className="text-text-primary/60 text-sm">{settings.company_wechat || "待补充"}</p></div>
+                  <div><h4 className="font-semibold text-text-primary mb-1">{t.contact_wechat}</h4><p className="text-text-primary/60 text-sm">{wechat}</p></div>
                 </div>
               </div>
             </div>

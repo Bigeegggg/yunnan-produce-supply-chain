@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useT } from "@/lib/i18n";
 
 interface TraceBatch {
   id: number; batch_code: string; product_name: string; product_id: number;
@@ -9,6 +10,7 @@ interface TraceBatch {
 }
 
 export default function TracePage() {
+  const { t } = useT();
   const router = useRouter();
   const [code, setCode] = useState("");
   const [recent, setRecent] = useState<TraceBatch[]>([]);
@@ -31,9 +33,9 @@ export default function TracePage() {
       <div className="max-w-2xl mx-auto px-4">
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">🔍</div>
-          <h1 className="text-3xl font-bold text-text-primary tracking-wide mb-2">溯源查询</h1>
-          <p className="text-xs font-light tracking-[0.2em] uppercase text-text-primary/25">Traceability Query</p>
-          <p className="text-text-primary/50 text-sm mt-4">输入产品包装上的溯源码或批次号，查看完整溯源信息</p>
+          <h1 className="text-3xl font-bold text-text-primary tracking-wide mb-2">{t.trace_title}</h1>
+          <p className="text-xs font-light tracking-[0.2em] uppercase text-text-primary/25">{t.trace_title_en}</p>
+          <p className="text-text-primary/50 text-sm mt-4">{t.trace_subtitle}</p>
         </div>
 
         <form onSubmit={handleSearch} className="mb-12">
@@ -41,12 +43,12 @@ export default function TracePage() {
             <input
               value={code}
               onChange={e => { setCode(e.target.value); setError(""); }}
-              placeholder="输入溯源码，如 YN240720A3F2"
+              placeholder={t.trace_placeholder}
               className="flex-1 px-5 py-4 bg-white border-2 border-sand rounded-xl text-lg text-text-primary focus:outline-none focus:border-primary transition-colors"
               autoFocus
             />
             <button type="submit" className="px-8 py-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-xl transition-colors text-lg">
-              查询
+              {t.trace_search}
             </button>
           </div>
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
@@ -54,7 +56,7 @@ export default function TracePage() {
 
         {recent.length > 0 && (
           <div>
-            <h3 className="text-sm font-medium text-text-primary/40 uppercase tracking-wider mb-4">最近录入的批次</h3>
+            <h3 className="text-sm font-medium text-text-primary/40 uppercase tracking-wider mb-4">{t.trace_recent}</h3>
             <div className="space-y-2">
               {recent.map(b => (
                 <a key={b.id} href={`/trace/${b.batch_code}`} className="flex items-center justify-between bg-white rounded-card p-4 shadow-card hover:shadow-card-hover transition-shadow">
