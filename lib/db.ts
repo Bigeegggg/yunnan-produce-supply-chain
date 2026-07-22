@@ -25,12 +25,15 @@ export function initDb(): void {
     CREATE TABLE IF NOT EXISTS products (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
+      name_en TEXT DEFAULT '',
       category TEXT NOT NULL CHECK(category IN ('水果类','叶菜类','茄果类','根茎类','菌类')),
       origin TEXT NOT NULL,
+      origin_en TEXT DEFAULT '',
       season TEXT NOT NULL,
       spec TEXT NOT NULL,
       image TEXT NOT NULL DEFAULT '',
       description TEXT NOT NULL DEFAULT '',
+      description_en TEXT DEFAULT '',
       published INTEGER NOT NULL DEFAULT 1,
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
@@ -113,11 +116,11 @@ export function initDb(): void {
     if (fs.existsSync(productsPath)) {
       const products = JSON.parse(fs.readFileSync(productsPath, "utf-8"));
       const insert = database.prepare(
-        "INSERT INTO products (name, category, origin, season, spec, image, description, published) VALUES (?, ?, ?, ?, ?, ?, ?, 1)"
+        "INSERT INTO products (name, name_en, category, origin, origin_en, season, spec, image, description, description_en, published) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)"
       );
       const tx = database.transaction(() => {
         for (const p of products) {
-          insert.run(p.name, p.category, p.origin, p.season, p.spec, p.image || "", p.description || "");
+          insert.run(p.name, p.name_en || "", p.category, p.origin, p.origin_en || "", p.season, p.spec, p.image || "", p.description || "", p.description_en || "");
         }
       });
       tx();

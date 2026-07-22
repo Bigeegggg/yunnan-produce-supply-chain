@@ -28,17 +28,20 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   const name = body.name ?? (existing as any).name;
+  const name_en = body.name_en ?? (existing as any).name_en ?? "";
   const category = body.category ?? (existing as any).category;
   const origin = body.origin ?? (existing as any).origin;
+  const origin_en = body.origin_en ?? (existing as any).origin_en ?? "";
   const season = body.season ?? (existing as any).season;
   const spec = body.spec ?? (existing as any).spec;
   const image = body.image ?? (existing as any).image;
   const description = body.description ?? (existing as any).description;
+  const description_en = body.description_en ?? (existing as any).description_en ?? "";
   const published = body.published !== undefined ? (body.published ? 1 : 0) : (existing as any).published;
 
   db.prepare(
-    "UPDATE products SET name=?, category=?, origin=?, season=?, spec=?, image=?, description=?, published=?, updated_at=datetime('now') WHERE id=?"
-  ).run(name, category, origin, season, spec, image, description, published, Number(id));
+    "UPDATE products SET name=?, name_en=?, category=?, origin=?, origin_en=?, season=?, spec=?, image=?, description=?, description_en=?, published=?, updated_at=datetime('now') WHERE id=?"
+  ).run(name, name_en, category, origin, origin_en, season, spec, image, description, description_en, published, Number(id));
 
   const updated = db.prepare("SELECT * FROM products WHERE id = ?").get(Number(id));
 

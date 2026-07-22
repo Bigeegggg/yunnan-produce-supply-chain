@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 
 interface ProductFormProps {
   initial?: {
-    id?: number; name?: string; category?: string; origin?: string;
-    season?: string; spec?: string; image?: string; description?: string;
+    id?: number; name?: string; name_en?: string; category?: string; origin?: string; origin_en?: string;
+    season?: string; spec?: string; image?: string; description?: string; description_en?: string;
     published?: number;
   };
 }
@@ -15,11 +15,14 @@ export default function ProductForm({ initial }: ProductFormProps) {
   const router = useRouter();
   const isEdit = !!initial?.id;
   const [name, setName] = useState(initial?.name || "");
+  const [nameEn, setNameEn] = useState(initial?.name_en || "");
   const [category, setCategory] = useState(initial?.category || "水果类");
   const [origin, setOrigin] = useState(initial?.origin || "");
+  const [originEn, setOriginEn] = useState(initial?.origin_en || "");
   const [season, setSeason] = useState(initial?.season || "");
   const [spec, setSpec] = useState(initial?.spec || "");
   const [description, setDescription] = useState(initial?.description || "");
+  const [descriptionEn, setDescriptionEn] = useState(initial?.description_en || "");
   const [image, setImage] = useState(initial?.image || "");
   const [imageUrl, setImageUrl] = useState("");
   const [published, setPublished] = useState(initial?.published !== 0);
@@ -55,7 +58,7 @@ export default function ProductForm({ initial }: ProductFormProps) {
     try {
       const res = await fetch(url, {
         method, headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, category, origin, season, spec, image, description, published }),
+        body: JSON.stringify({ name, name_en: nameEn, category, origin, origin_en: originEn, season, spec, image, description, description_en: descriptionEn, published }),
       });
       if (res.ok) { router.push("/admin/products"); router.refresh(); return; }
       const data = await res.json();
@@ -72,6 +75,10 @@ export default function ProductForm({ initial }: ProductFormProps) {
           <label className="block text-sm font-medium text-text-primary mb-2">产品名称 *</label>
           <input value={name} onChange={(e) => setName(e.target.value)} required className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary" placeholder="如：宾川红提" />
         </div>
+        <div className="sm:col-span-2">
+          <label className="block text-sm font-medium text-text-primary mb-2">English Name</label>
+          <input value={nameEn} onChange={(e) => setNameEn(e.target.value)} className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary" placeholder="e.g. Binchuan Red Grapes" />
+        </div>
         <div>
           <label className="block text-sm font-medium text-text-primary mb-2">分类 *</label>
           <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary">
@@ -81,6 +88,10 @@ export default function ProductForm({ initial }: ProductFormProps) {
         <div>
           <label className="block text-sm font-medium text-text-primary mb-2">产地 *</label>
           <input value={origin} onChange={(e) => setOrigin(e.target.value)} required className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary" placeholder="如：大理宾川" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-text-primary mb-2">English Origin</label>
+          <input value={originEn} onChange={(e) => setOriginEn(e.target.value)} className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary" placeholder="e.g. Dali, Binchuan" />
         </div>
         <div>
           <label className="block text-sm font-medium text-text-primary mb-2">供应季节</label>
@@ -93,6 +104,10 @@ export default function ProductForm({ initial }: ProductFormProps) {
         <div className="sm:col-span-2">
           <label className="block text-sm font-medium text-text-primary mb-2">描述</label>
           <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary resize-none" placeholder="产品特点、口感、种植环境等" />
+        </div>
+        <div className="sm:col-span-2">
+          <label className="block text-sm font-medium text-text-primary mb-2">English Description</label>
+          <textarea value={descriptionEn} onChange={(e) => setDescriptionEn(e.target.value)} rows={3} className="w-full px-4 py-3 bg-white border border-sand rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 text-text-primary resize-none" placeholder="English product description" />
         </div>
         <div className="sm:col-span-2">
           <label className="block text-sm font-medium text-text-primary mb-2">产品图片</label>

@@ -25,14 +25,14 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { name, category, origin, season, spec, image, description, published } = body;
+  const { name, name_en, category, origin, origin_en, season, spec, image, description, description_en, published } = body;
   if (!name || !category || !origin) {
     return NextResponse.json({ error: "名称、分类、产地为必填项" }, { status: 400 });
   }
   const db = getDb();
   const result = db.prepare(
-    "INSERT INTO products (name, category, origin, season, spec, image, description, published) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-  ).run(name, category, origin, season || "", spec || "", image || "", description || "", published !== undefined ? (published ? 1 : 0) : 1);
+    "INSERT INTO products (name, name_en, category, origin, origin_en, season, spec, image, description, description_en, published) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+  ).run(name, name_en || "", category, origin, origin_en || "", season || "", spec || "", image || "", description || "", description_en || "", published !== undefined ? (published ? 1 : 0) : 1);
   const product = db.prepare("SELECT * FROM products WHERE id = ?").get(result.lastInsertRowid);
 
   // Sync to JSON for Vercel deployment

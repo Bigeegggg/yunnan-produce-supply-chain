@@ -2,8 +2,8 @@ import "server-only";
 import { getDb, initDb } from "./db";
 
 export interface Product {
-  id: number; name: string; category: string; origin: string;
-  season: string; spec: string; image: string; description: string;
+  id: number; name: string; name_en: string; category: string; origin: string; origin_en: string;
+  season: string; spec: string; image: string; description: string; description_en: string;
   published: number;
 }
 

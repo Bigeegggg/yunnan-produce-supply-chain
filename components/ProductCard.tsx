@@ -10,7 +10,11 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const { t } = useT();
+  const { t, lang } = useT();
+  const isEn = lang === "en";
+  const pName = isEn && product.name_en ? product.name_en : product.name;
+  const pOrigin = isEn && product.origin_en ? product.origin_en : product.origin;
+  const pDesc = isEn && product.description_en ? product.description_en : product.description;
 
   return (
     <div className="relative bg-white rounded-card shadow-card hover:shadow-card-hover transition-all hover:-translate-y-1 overflow-hidden group terrace-edge">
@@ -23,7 +27,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       <a href={`/products/${product.id}`} className="block relative aspect-[4/3] bg-sand overflow-hidden">
         {product.image ? (
-          <Image src={product.image} alt={product.name} fill unoptimized className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw" />
+          <Image src={product.image} alt={pName} fill unoptimized className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-text-primary/20 text-sm">{t.common_no_data}</div>
         )}
@@ -31,17 +35,17 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       <div className="p-5">
         <a href={`/products/${product.id}`} className="flex items-start justify-between mb-1">
-          <h3 className="text-lg font-bold text-text-primary hover:text-primary transition-colors">{product.name}</h3>
-          <YunnanBadge text={product.origin} />
+          <h3 className="text-lg font-bold text-text-primary hover:text-primary transition-colors">{pName}</h3>
+          <YunnanBadge text={pOrigin} />
         </a>
-        <p className="text-text-primary/50 text-sm mb-3 line-clamp-2">{product.description}</p>
+        <p className="text-text-primary/50 text-sm mb-3 line-clamp-2">{pDesc}</p>
         <div className="flex items-center gap-4 text-xs text-text-primary/40 mb-4">
           <span className="flex items-center gap-1"><svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{product.season}</span>
           <span>{product.spec}</span>
         </div>
         <div className="grid grid-cols-2 gap-2 pt-3 border-t border-sand/30">
           <a href={`/api/trace/redirect?product_id=${product.id}`} onClick={e => e.stopPropagation()} className="block text-center py-2 bg-accent/10 text-accent text-sm font-semibold rounded-lg hover:bg-accent hover:text-white transition-colors">{t.card_trace}</a>
-          <a href={`/inquire?product=${encodeURIComponent(product.name)}`} onClick={e => e.stopPropagation()} className="block text-center py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary-dark transition-colors">{t.card_inquire}</a>
+          <a href={`/inquire?product=${encodeURIComponent(pName)}`} onClick={e => e.stopPropagation()} className="block text-center py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary-dark transition-colors">{t.card_inquire}</a>
         </div>
       </div>
     </div>

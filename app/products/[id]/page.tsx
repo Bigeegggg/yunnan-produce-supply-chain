@@ -16,6 +16,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   const product = db.prepare("SELECT * FROM products WHERE id = ?").get(Number(id)) as any;
   if (!product) return <div className="min-h-screen pt-28 text-center text-text-primary/40">Product not found</div>;
 
+  // server component — default EN. For proper i18n across page transitions, could read from a 'lang' cookie.
+  const isEn = true;
+  const pName = product.name_en || product.name;
+  const pOrigin = product.origin_en || product.origin;
+  const pDesc = product.description_en || product.description;
+
   const videos = db.prepare("SELECT * FROM videos WHERE product_id = ? AND status = 'approved' ORDER BY created_at DESC").all(Number(id)) as any[];
   const traceBatches = db.prepare("SELECT * FROM trace_batches WHERE product_id = ? AND status = 'active' ORDER BY created_at DESC").all(Number(id)) as any[];
 
@@ -23,23 +29,23 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     <div className="min-h-screen bg-warm">
       <section className="pt-28 pb-12 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/products" className="text-text-primary/40 hover:text-primary text-sm mb-4 inline-flex items-center gap-1 transition-colors">← Back to Products</Link>
+          <Link href="/products" className="text-text-primary/40 hover:text-primary text-sm mb-4 inline-flex items-center gap-1 transition-colors">← {isEn ? "Back to Products" : "返回产品列表"}</Link>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-4">
             <div className="aspect-[4/3] bg-sand rounded-card overflow-hidden">
-              {product.image ? <img src={product.image} alt={product.name} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-text-primary/20">No Image</div>}
+              {product.image ? <img src={product.image} alt={pName} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-text-primary/20">{isEn ? "No Image" : "暂无图片"}</div>}
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-text-primary mb-2">{product.name}</h1>
+              <h1 className="text-3xl font-bold text-text-primary mb-2">{pName}</h1>
               <div className="flex items-center gap-3 mb-4">
-                <span className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full">📍 {product.origin}</span>
+                <span className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full">{isEn ? "📍 " + pOrigin : "📍 " + pOrigin}</span>
                 <span className="text-text-primary/40 text-sm">🕐 {product.season}</span>
                 <span className="text-text-primary/40 text-sm">📦 {product.spec}</span>
               </div>
-              <p className="text-text-primary/70 leading-relaxed mb-6">{product.description}</p>
+              <p className="text-text-primary/70 leading-relaxed mb-6">{pDesc}</p>
               <div className="flex flex-wrap gap-3">
-                <Link href={`/inquire?product=${encodeURIComponent(product.name)}`} className="px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-colors">Inquire Now</Link>
+                <Link href={`/inquire?product=${encodeURIComponent(pName)}`} className="px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition-colors">{isEn ? "Inquire Now" : "咨询下单"}</Link>
                 {traceBatches.length > 0 && (
-                  <Link href={`/api/trace/redirect?product_id=${product.id}`} className="px-6 py-3 bg-accent text-white font-semibold rounded-lg hover:bg-accent-dark transition-colors">View Traceability</Link>
+                  <Link href={`/api/trace/redirect?product_id=${product.id}`} className="px-6 py-3 bg-accent text-white font-semibold rounded-lg hover:bg-accent-dark transition-colors">{isEn ? "View Traceability" : "查看溯源"}</Link>
                 )}
               </div>
             </div>
@@ -52,8 +58,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           <div className="absolute inset-0 mountain-bg opacity-10" />
           <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 rounded-full text-white/80 text-xs font-medium mb-4">🎬 Videos</div>
-              <h2 className="text-3xl font-bold text-white tracking-wide">{product.name} · Origin Footage</h2>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 rounded-full text-white/80 text-xs font-medium mb-4">{isEn ? "🎬 Videos" : "🎬 视频展示"}</div>
+              <h2 className="text-3xl font-bold text-white tracking-wide">{pName} · {isEn ? "Origin Footage" : "产地实拍"}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {videos.map((v: any) => {
