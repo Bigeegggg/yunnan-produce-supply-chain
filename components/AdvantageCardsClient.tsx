@@ -3,12 +3,36 @@
 import { useT } from "@/lib/i18n";
 
 export default function AdvantageCardsClient({ settings }: { settings: Record<string, string> }) {
-  const { t } = useT();
+  const { t, lang } = useT();
   const s = settings;
+
+  // Use i18n as primary, DB settings as fallback
+  const isEn = lang === "en";
   const advantages = [
-    { icon: "🌱", title: s.advantage_1_title || t.trust_item1_title, en: "Direct Sourcing", description: s.advantage_1_desc || "" },
-    { icon: "🚛", title: s.advantage_2_title || t.trust_item2_title, en: "Cold Chain", description: s.advantage_2_desc || "" },
-    { icon: "✅", title: s.advantage_3_title || t.trust_item3_title, en: "Traceability", description: s.advantage_3_desc || "" },
+    {
+      icon: "🌱",
+      title: isEn ? "Direct Sourcing" : (s.advantage_1_title || "源头种植"),
+      en: "Direct Sourcing",
+      description: isEn
+        ? "Our partner network spans 50+ farms across all 6 major Yunnan growing regions — from field to freight with total control."
+        : s.advantage_1_desc || "云南高原自有合作基地，覆盖大理、昭通、楚雄、红河等核心产区，从田间到餐桌全程可控。"
+    },
+    {
+      icon: "🚛",
+      title: isEn ? "Cold Chain Logistics" : (s.advantage_2_title || "冷链直发"),
+      en: "Cold Chain Logistics",
+      description: isEn
+        ? "Produce is pre-cooled at origin and shipped via temperature-controlled logistics, arriving at major cities nationwide within 48 hours."
+        : s.advantage_2_desc || "产地预冷 + 全程冷链物流，48 小时内从云南直达全国主要城市，保证新鲜度。"
+    },
+    {
+      icon: "✅",
+      title: isEn ? "Full Traceability" : (s.advantage_3_title || "品控溯源"),
+      en: "Full Traceability",
+      description: isEn
+        ? "Every batch can be traced back to the specific farm plot and grower. Green Food certified with transparent pesticide residue testing."
+        : s.advantage_3_desc || "每批次产品可追溯至具体种植地块和农户，通过国家绿色食品认证，农残检测透明。"
+    },
   ];
 
   return (
