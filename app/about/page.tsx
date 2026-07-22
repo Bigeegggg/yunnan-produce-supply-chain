@@ -1,11 +1,16 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useT } from "@/lib/i18n";
-import { getSettings } from "@/lib/data";
 
 export default function AboutPage() {
   const { t } = useT();
-  const s = getSettings();
+  const [s, setSettings] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    fetch("/api/settings").then(r => r.json()).then(setSettings);
+  }, []);
+
   const aboutText = s.about_text || "";
   const defaultText = aboutText || [t.about_desc_p1, t.about_desc_p2, t.about_desc_p3].join("\n");
 
