@@ -1,3 +1,4 @@
+import "server-only";
 import { getDb, initDb } from "./db";
 
 export interface Product {

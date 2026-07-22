@@ -1,19 +1,20 @@
 "use client";
 
-import HeroBanner from "@/components/HeroBanner";
-import AdvantageCards from "@/components/AdvantageCards";
+import HeroBannerClient from "@/components/HeroBannerClient";
+import AdvantageCardsClient from "@/components/AdvantageCardsClient";
 import MountainDivider from "@/components/MountainDivider";
 import ProductCard from "@/components/ProductCard";
 import { useT } from "@/lib/i18n";
 import type { Product } from "@/lib/data";
 
-export default function HomeClient({ products }: { products: Product[] }) {
+export default function HomeClient({ products, settings }: { products: Product[]; settings: Record<string, string> }) {
   const { t } = useT();
   const featuredProducts = products.slice(0, 6);
+  const heroImage = settings.hero_image || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80";
 
   return (
     <>
-      <HeroBanner />
+      <HeroBannerClient heroImage={heroImage} />
 
       {/* Stats */}
       <section className="py-16 bg-white border-b border-sand/30">
@@ -33,7 +34,7 @@ export default function HomeClient({ products }: { products: Product[] }) {
         </div>
       </section>
 
-      <AdvantageCards />
+      <AdvantageCardsClient settings={settings} />
       <MountainDivider />
 
       {/* Procurement flow */}
