@@ -90,7 +90,7 @@ export default async function TraceDetailPage({ params }: { params: Promise<{ co
 
         {/* Footer */}
         <div className="mt-8 bg-primary/5 border border-primary/10 rounded-card p-4 text-center">
-          <p className="text-sm text-primary/70">✅ 本溯源数据由供应商提供并审核</p>
+          <p className="text-sm text-primary/70">✅ This traceability data is verified and provided by our suppliers</p>
         </div>
       </div>
     </div>
